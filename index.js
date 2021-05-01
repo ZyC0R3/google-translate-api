@@ -85,9 +85,8 @@ function translate(text, options, gotopts) {
                 json = JSON.parse(json.slice(length.length, Number.parseInt(length, 10) + length.length));
                 json = JSON.parse(json[0][2]);
                 result.raw = json;
-            } catch(err)
-            {
-                console.log(err)
+            } catch (error_) {
+                console.log(error_);
                 return result;
             }
 

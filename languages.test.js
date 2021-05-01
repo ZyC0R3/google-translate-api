@@ -1,6 +1,6 @@
-var test = require('ava');
-var Configstore = require('configstore');
-var translate = require('./index.js');
+const test = require('ava');
+const Configstore = require('configstore');
+const translate = require('./index.js');
 
 const config = new Configstore('google-translate-api');
 
@@ -9,19 +9,19 @@ test.beforeEach(() => {
 });
 
 test('translate from en to ps (Pashto) - Hello', async t => {
-    const res = await translate('hello', {from: 'en', to: 'ps'});
+    const results = await translate('hello', {from: 'en', to: 'ps'});
 
-    t.is(res.text, 'سلام');
+    t.is(results.text, 'سلام');
 });
 
 test('translate from en to sq (Albanian) - Hello', async t => {
-    const res = await translate('hello', {from: 'en', to: 'sq'});
+    const results = await translate('hello', {from: 'en', to: 'sq'});
 
-    t.is(res.text, 'Përshëndetje');
+    t.is(results.text, 'Përshëndetje');
 });
 
 test('translate from en to ar (Arabic) - Hello', async t => {
-    const res = await translate('hello', {from: 'en', to: 'ar'});
+    const results = await translate('hello', {from: 'en', to: 'ar'});
 
-    t.is(res.text, 'مرحبا');
+    t.is(results.text, 'مرحبا');
 });

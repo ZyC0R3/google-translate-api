@@ -1,7 +1,7 @@
-var test = require('ava');
-var Configstore = require('configstore');
-var languages = require('./languages.js');
-var translate = require('./index.js');
+const test = require('ava');
+const Configstore = require('configstore');
+const languages = require('./languages.js');
+const translate = require('./index.js');
 
 const config = new Configstore('google-translate-api');
 
@@ -10,54 +10,54 @@ test.beforeEach(() => {
 });
 
 test('translate without any options', async t => {
-    const res = await translate('vertaler');
+    const results = await translate('vertaler');
 
-    t.is(res.text, 'translator');
-    t.false(res.from.language.didYouMean);
-    t.is(res.from.language.iso, 'nl');
-    t.false(res.from.text.autoCorrected);
-    t.is(res.from.text.value, '');
-    t.false(res.from.text.didYouMean);
+    t.is(results.text, 'translator');
+    t.false(results.from.language.didYouMean);
+    t.is(results.from.language.iso, 'nl');
+    t.false(results.from.text.autoCorrected);
+    t.is(results.from.text.value, '');
+    t.false(results.from.text.didYouMean);
 });
 
 test('translate from auto to dutch', async t => {
-    const res = await translate('translator', {from: 'auto', to: 'nl'});
+    const results = await translate('translator', {from: 'auto', to: 'nl'});
 
-    t.is(res.text, 'vertaler');
-    t.false(res.from.language.didYouMean);
-    t.is(res.from.language.iso, 'en');
-    t.false(res.from.text.autoCorrected);
-    t.is(res.from.text.value, '');
-    t.false(res.from.text.didYouMean);
+    t.is(results.text, 'vertaler');
+    t.false(results.from.language.didYouMean);
+    t.is(results.from.language.iso, 'en');
+    t.false(results.from.text.autoCorrected);
+    t.is(results.from.text.value, '');
+    t.false(results.from.text.didYouMean);
 });
 
 test('test pronunciation', async t => {
-    const res = await translate('translator', {from: 'auto', to: 'zh-CN'});
+    const results = await translate('translator', {from: 'auto', to: 'zh-CN'});
 
-    t.is(res.pronunciation, 'Yì zhě');
+    t.is(results.pronunciation, 'Yì zhě');
 });
 
 test('translate some english text setting the source language as portuguese', async t => {
-    const res = await translate('happy', {from: 'pt', to: 'nl'});
+    const results = await translate('happy', {from: 'pt', to: 'nl'});
 
-    t.true(res.from.language.didYouMean);
-    t.is(res.from.language.iso, 'en');
+    t.true(results.from.language.didYouMean);
+    t.is(results.from.language.iso, 'en');
 });
 
 test('translate some misspelled english text to dutch', async t => {
-    const res = await translate('I spea Dutch', {from: 'en', to: 'nl'});
+    const results = await translate('I spea Dutch', {from: 'en', to: 'nl'});
 
-    if (res.from.text.autoCorrected || res.from.text.didYouMean) {
-        t.is(res.from.text.value, 'I [speak] Dutch');
+    if (results.from.text.autoCorrected || results.from.text.didYouMean) {
+        t.is(results.from.text.value, 'I [speak] Dutch');
     } else {
         t.fail();
     }
 });
 
 test('translate some text and get the raw output alongside', async t => {
-    const res = await translate('vertaler', {raw: true});
+    const results = await translate('vertaler', {raw: true});
 
-    t.truthy(res.raw);
+    t.truthy(results.raw);
 });
 
 test('test a supported language – by code', t => {
@@ -125,29 +125,29 @@ test('try to translate to an unsupported language', async t => {
 });
 
 test('translate from dutch to english using language names instead of codes', async t => {
-    const res = await translate('iets', {from: 'dutch', to: 'english'});
+    const results = await translate('iets', {from: 'dutch', to: 'english'});
 
-    t.is(res.from.language.iso, 'nl');
-    t.is(res.text, 'something');
+    t.is(results.from.language.iso, 'nl');
+    t.is(results.text, 'something');
 });
 
 test('translate via custom tld', async t => {
-    const res = await translate('vertaler', {tld: 'cn'});
+    const results = await translate('vertaler', {tld: 'cn'});
 
-    t.is(res.text, 'translator');
-    t.false(res.from.language.didYouMean);
-    t.is(res.from.language.iso, 'nl');
-    t.false(res.from.text.autoCorrected);
-    t.is(res.from.text.value, '');
-    t.false(res.from.text.didYouMean);
+    t.is(results.text, 'translator');
+    t.false(results.from.language.didYouMean);
+    t.is(results.from.language.iso, 'nl');
+    t.false(results.from.text.autoCorrected);
+    t.is(results.from.text.value, '');
+    t.false(results.from.text.didYouMean);
 });
 
 test('translate via an external language from outside of the API', async t => {
     translate.languages['sr-Latn'] = 'Serbian Latin';
-    const res = await translate('translator', {to: 'sr-Latn'});
+    const results = await translate('translator', {to: 'sr-Latn'});
 
-    t.is(res.text, 'преводилац');
-    t.is(res.from.language.iso, 'en');
+    t.is(results.text, 'преводилац');
+    t.is(results.from.language.iso, 'en');
 });
 
 test('pass got options', async t => {
@@ -162,9 +162,9 @@ test('pass got options', async t => {
             ]
         }
     };
-    const res = await translate('vertaler', {}, gotopts);
+    const results = await translate('vertaler', {}, gotopts);
 
-    t.is(res.text, 'translator');
+    t.is(results.text, 'translator');
     t.is(a, 2);
 });
 

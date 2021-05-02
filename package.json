@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/RitaBot-Project/google-translate-api#readme",
   "dependencies": {
-    "configstore": "^5.0.1",
+    "configstore": "^6.0.0",
     "got": "^11.8.2"
   },
   "devDependencies": {
